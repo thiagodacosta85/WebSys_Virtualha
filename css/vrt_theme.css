@@ -55,3 +55,19 @@
   background: url(../img/home/icone-insta.png);
   background-size: 36px 36px;
 }
+
+/* background da pagina historia
+
+.historiaBackground {
+  background-color: #ffc078;
+}
+
+*/
+
+.paragrafo {
+  text-indent: 4em;
+}
+
+.camaraPrefeitura {
+  filter: sepia(0.8) contrast(1.25);
+}
