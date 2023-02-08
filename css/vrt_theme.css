@@ -1,0 +1,57 @@
+.jumbotron {
+  color: white;
+  text-shadow: 3px 3px 4px #000000;
+  background-image: url(../img/home/Panoramica_Entrada_Vta.jpg);
+  background-color: #e9ecef;
+  background-size: cover;
+  background-position: top;
+}
+
+.footer {
+  margin-top: 2em;
+  background: #e6e6e6;
+  padding: 40px 0;
+  border-top: 1px solid #aaa;
+}
+
+.footer .container {
+  position: relative;
+}
+
+/*
+.social {
+  position: absolute;
+  right: 1em;
+  top: -1.6em;
+}
+*/
+
+.social a {
+  display: block;
+  width: 36px;
+  height: 36px;
+  text-indent: -9999px;
+}
+
+.social li {
+  display: inline-block;
+  margin-left: 1em;
+}
+
+.social a[href='http://facebook.com/virtualha']
+{
+  background: url(../img/home/icone-face.png);
+  background-size: 36px 36px;
+}
+
+.social a[href='http://twitter.com/virtualha']
+{
+  background: url(../img/home/icone-twitter.png);
+  background-size: 36px 36px;
+}
+
+.social a[href='http://instagram.com/virtualha']
+{
+  background: url(../img/home/icone-insta.png);
+  background-size: 36px 36px;
+}
