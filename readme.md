@@ -8,7 +8,7 @@
 
 ### 📋 Pré-requisitos
 
-Este projeto é desenvolvido com o framework Bootstrap 4.1, então basicamente o que você precisa para executá-lo em caso de download é um navegador web ou um dispositivo mobile atualizado.
+- Este projeto é desenvolvido com o framework Bootstrap 4.1, então basicamente o que você precisa para executá-lo em caso de download é um navegador web ou um dispositivo mobile atualizado.
 Mais detalhes técnicos ou especificidades podem ser obtidos na página do **[Bootstrap](https://getbootstrap.com.br/docs/4.1/getting-started/browsers-devices/#:~:text=Bootstrap%20%C3%A9%20suportado%20pelas%20vers%C3%B5es,10%2C%2011%20e%20Microsoft%20Edge.)**
 
 ## 🛠️ Construído com
@@ -22,7 +22,7 @@ Em sua totalidade este projeto foi desenvolvido com as seguintes ferramentas:
 
 ## 📌 Versão
 
-Virtualha Web System utiliza [GitHub](https://github.com/) para controle de versão. Para as versões disponíveis, observe as [tags neste repositório](https://github.com/thiagodacosta85/WebSys_Virtualha).
+- Virtualha Web System utiliza [GitHub](https://github.com/) para controle de versão. Para as versões disponíveis, observe as [tags neste repositório](https://github.com/thiagodacosta85/WebSys_Virtualha).
 
 ## ✒️ Autor
 
@@ -30,7 +30,7 @@ Virtualha Web System utiliza [GitHub](https://github.com/) para controle de vers
 
 ## 📄 Licença
 
-Este é um projeto de caráter meramente educacional, desenvolvido para prática de habilidades adquiridas durante o curso de Ciência da Computação, entre outros, em andamento desde 2019 na UNIFG - Faculdade dos Guararapes. Se você veio até aqui, provavelmente tem algum interesse no conteúdo ou em avaliar minhas habilidades, então caso utilize alguma parte ou o todo este projeto seja para inspirar, alterar, ou modificar, por favor declare o devido crédito à minha autoria.
+- Este é um projeto de caráter meramente educacional, desenvolvido para prática de habilidades adquiridas durante o curso de Ciência da Computação, entre outros, em andamento desde 2019 na UNIFG - Faculdade dos Guararapes. Se você veio até aqui, provavelmente tem algum interesse no conteúdo ou em avaliar minhas habilidades, então caso utilize alguma parte ou o todo este projeto seja para inspirar, alterar, ou modificar, por favor declare o devido crédito à minha autoria.
 
 ## 📋 Sobre min
 
