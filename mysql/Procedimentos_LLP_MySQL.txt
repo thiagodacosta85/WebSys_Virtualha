@@ -1,0 +1,108 @@
+1) Após instalação do MySQL no server, liberar neste entrada e saída da porta 3306 no firewall
+do windows.
+
+2) Via acesso como 'root' ao CLI do MySQL no servidor, proceder com a inclusão dos usuários.
+Atribuir um nome de usuário, endereço IP da máquina que será liberada, e uma senha para
+este usuário, da seguinte maneira:
+
+CREATE USER 'newuser'@'localhost' IDENTIFIED BY 'password';
+
+( Descrição:
+newuser = nome que será atribuído ao novo usuário
+localhost = aqui localhost caso rode o cliente na própria máquina, ou então o endereço de IP da
+máquina que terá liberado o acesso.
+password = naturalmente a senha que será atribuída a este novo usuário.
+)
+
+3) Criado o usuário, é necessário atribuir permissões:
+
+GRANT ALL PRIVILEGES ON * . * TO 'newuser'@'localhost';
+
+( Descrição:
+Antes de serem atribuídas as autorizações ao usuário criado, não haverá nem mesmo permissão para
+acessar os databases, entretanto observar que a autorização acima, habilita o usuário como db
+adim. Porém é possível atribuir autorições específicas:
+
+Neste caso a linha de comando é:
+
+GRANT type_of_permission ON database_name.table_name TO 'username'@'localhost';
+
+sendo, type_of_permission, cfe. abaixo:
+
+ALL PRIVILEGES — isso garante ao usuário do MySQL acesso completo a um banco de dados (ou, se
+nenhum banco de dados for selecionado, acesso global a todo o sistema).
+CREATE — permite criar novas tabelas ou bancos de dados
+DROP — permite deletar tabelas ou bancos de dados
+DELETE — permite excluir linhas de tabelas
+INSERT — permite inserir linhas em tabelas
+SELECT - permite usar o comando SELECT para ler os bancos de dados
+UPDATE — permite atualizar linhas de tabelas
+GRANT OPTION — permite conceder ou remover privilégios de outros usuários.
+)
+
+4) Sempre após cadastrar um novo usuário, recarregar as permissões no sistema:
+
+FLUSH PRIVILEGES;
+
+5) Se for preciso revogar uma permissão, esta é a linha de comando:
+
+REVOKE type_of_permission ON database_name.table_name FROM 'username'@'localhost';
+
+6) para revisar as permissões de um usuário:
+
+SHOW GRANTS FOR 'username'@'localhost';
+
+7) Para deletar um usuário:
+
+DROP USER 'username'@'localhost';
+
+8) Para testar um novo usuário (necessariamente no servidor):
+
+mysql> QUIT
+
+e então logar novamente via terminal:
+
+$ mysql -u [username] -p 
+
+9) Para listar os usuários em geral no MySql do servidor:
+
+mysql> SELECT HOST, USER FROM MYSQL.USER;
+
+10) Considerando que tudo esta organizado no DB no servidor:
+
+10.1) ******** atenção --> no cmd do WINDOWS - usar necessariamente/somente letras minúsculas para efetuar login********
+
+10.2) Abrir o cmd, e então direcioná-lo para a raiz com:
+
+'cd\'
+
+10.3) Se instalado de acordo com a instalação padrão, o caminho para o exe MySQL Server estará em:
+
+'C:\>cd program files\mysql\mysql server 8.0\bin'
+
+(aqui é importante conferir a versão, e certificar que corresponde a mesma da época deste documento
+de procedimentos)
+
+10.4) Considerando que os usuários estejam criados, e endereçados corretamente com seu nr. de IP,
+proceder com acesso ao DB:
+
+mysql -u thiago -h 192.168.0.169 -p (entra no I3-10105F)
+
+mysql -u llpdigital -h 192.168.0.110 -p (entra no I3-3227U)
+
+( Descrição:
+mysql = indicando o executável
+-u thiago = indicando o usuário neste caso, ou seja, -u 'user' conceitualmente.
+-h 192.168.0.169 = indicando o endereço de IP neste caso, ou seja, -h 'xxx.xxx.x.xxx' conceitualmente.
+-p = indicando que na proxima cli vai ser declarado o password cadastrado para este usuário.
+)
+
+10.5) Entar com o password e operar normalmente o banco.
+
+*** em caso de erros, ou inconsitências na execução dos procedimentos, atentar para o fato de que
+existem diferentes comportamentos por parte da versão dos sistemas operacionais relacionados a
+digitação de caracteres maiúsculos ou minúsculos, e também considerar a boa prática de lógica de
+programação na interpretação do procedimento, "geralmente as strings estão dentro de aspas".
+
+
+
