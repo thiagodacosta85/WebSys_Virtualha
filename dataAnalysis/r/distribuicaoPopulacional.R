@@ -28,5 +28,11 @@ barplot(height = localidades$POPULACAO, names = localidades$NOME, main = "Distri
         col = "cornflowerblue", horiz = TRUE, las=2)
 box()
 
+descritiva <- localidades[ ,c(-1,-2,-3,-15,-17)]
+head(descritiva)
+tail(descritiva)
 
-
+sapply(descritiva, min)
+sapply(descritiva, mean)
+sapply(descritiva,median)
+sapply(descritiva, max)
