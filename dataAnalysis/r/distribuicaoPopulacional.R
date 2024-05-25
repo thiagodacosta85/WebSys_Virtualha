@@ -36,3 +36,12 @@ sapply(descritiva, min)
 sapply(descritiva, mean)
 sapply(descritiva,median)
 sapply(descritiva, max)
+
+typeof(descritiva$VIS_TUR)
+
+head(descritiva)
+unique(localidades$NOME)
+print(localidades$NOME[localidades$ZONA == "C", ])
+
+print(localidades$NOME)
+      
