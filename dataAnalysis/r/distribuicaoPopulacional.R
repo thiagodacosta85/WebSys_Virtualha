@@ -4,6 +4,10 @@ if(!require(dplyr))
   install.packages("dplyr")
 library(dplyr)
 
+if(!require(tidyr))
+  install.packages("tidyr")
+library(tidyr)
+
 if(!require(psych))
   install.packages("psych")
 library(psych)
@@ -11,6 +15,7 @@ library(psych)
 if(!require(RColorBrewer))
   install.packages("RColorBrewer")
 library(RColorBrewer)
+
 
 
 localidades <- read.csv("C:/llpDigital/WebSys_Virtualha/dataAnalysis/data/localidades.csv", header=TRUE, sep = ";", fileEncoding = 'latin1')
@@ -64,3 +69,39 @@ names(localidades)
 
 select(localidades, NOME, ZONA, POPULACAO, ATIV)
 
+as.list(localidades)
+class(localidades[17])
+
+localidades[1,]
+sum(localidades[,4])
+sum(localidades[,5])
+sum(localidades[,6])
+sum(localidades[,7])
+sum(localidades[,8])
+
+deficitTrabDispo <- sum((localidades[,7]-localidades[,8])*-1)
+print(c("O total de vagas de trabalho não preenchidas é:", deficitTrabDispo))
+
+popDecrescente <-   arrange(select(localidades, NOME, ZONA, POPULACAO, ATIV),desc(POPULACAO))
+print(popDecrescente)
+
+
+table(popDecrescente$ZONA)
+table(popDecrescente$ATIV)
+table(popDecrescente$ZONA, popDecrescente$ATIV)
+pie(table(popDecrescente$ZONA))
+
+par(mar=c(2,2,2,2))
+  pie(table(popDecrescente$ZONA), col = blues9, main = "Quantidades por Zona")
+    box()
+  
+par(mar=c(2,2,2,2))
+  pie(table(popDecrescente$ATIV), col = blues9, main = "Distribuição das Atividades")
+    box()
+
+    
+par(mar=c(2,2,2,2))
+  barplot(table(popDecrescente$POPULACAO, popDecrescente$ATIV), col = "cornflowerblue", main = "Distribuição Populacional por Tipo de Atividade")
+  box()
+    
+  
