@@ -1,6 +1,17 @@
 setwd("C:/llpDigital/WebSys_Virtualha/dataAnalysis")
 
+if(!require(dplyr))
+  install.packages("dplyr")
+library(dplyr)
+
+if(!require(psych))
+  install.packages("psych")
+library(psych)
+
+if(!require(RColorBrewer))
+  install.packages("RColorBrewer")
 library(RColorBrewer)
+
 
 localidades <- read.csv("C:/llpDigital/WebSys_Virtualha/dataAnalysis/data/localidades.csv", header=TRUE, sep = ";", fileEncoding = 'latin1')
 localidades$DATA_FUND <- as.Date(localidades$DATA_FUND, format = "%Y-%m-%d")
@@ -8,8 +19,6 @@ View(localidades)
 
 str(localidades)
 head(localidades)
-
-
 
 #-->passando cores da paleta RColorBrewer<--
 #brewer.pal.info
@@ -44,4 +53,14 @@ unique(localidades$NOME)
 print(localidades$NOME[localidades$ZONA == "C", ])
 
 print(localidades$NOME)
-      
+
+# Analises de variaveis categoricas
+
+glimpse(localidades)
+table(localidades$VALOR_MED_TERRENO)
+table(localidades$NOME, localidades$POPULACAO)
+
+names(localidades)
+
+select(localidades, NOME, ZONA, POPULACAO, ATIV)
+
