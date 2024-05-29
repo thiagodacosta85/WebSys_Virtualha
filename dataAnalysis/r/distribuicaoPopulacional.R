@@ -103,5 +103,3 @@ par(mar=c(2,2,2,2))
 par(mar=c(2,2,2,2))
   barplot(table(popDecrescente$POPULACAO, popDecrescente$ATIV), col = "cornflowerblue", main = "Distribuição Populacional por Tipo de Atividade")
   box()
-    
-  

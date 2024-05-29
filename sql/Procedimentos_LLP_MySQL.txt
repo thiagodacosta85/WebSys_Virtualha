@@ -104,5 +104,52 @@ existem diferentes comportamentos por parte da versão dos sistemas operacionais
 digitação de caracteres maiúsculos ou minúsculos, e também considerar a boa prática de lógica de
 programação na interpretação do procedimento, "geralmente as strings estão dentro de aspas".
 
+##########################################################################################################
 
+-> Acessando MySQL através de R
+
+1) A conexão ao MySQL é muito fácil com o pacote RMySQL . Para conectar-se a um banco de dados MySQL
+basta instalar o pacote e carregar a biblioteca.
+
+install.packages("RMySQL")
+library(RMySQL)
+
+2) Conectando-se ao MySQL:
+Depois que a biblioteca RMySQL estiver instalada, crie um objeto de conexão com o banco de dados.
+
+mydb = dbConnect(MySQL(), user='user', password='password', dbname='database_name', host='host')
+
+3) Listando Tabelas e Campos:
+Agora que a conexão foi feita, listamos as tabelas e campos do banco de dados ao qual nos conectamos.
+
+dbListTables(mydb)
+Isso retornará uma lista das tabelas em nossa conexão.
+
+dbListFields(mydb, 'some_table')
+Isso retornará uma lista dos campos em 'some_table'.
+
+4) Executando consultas:
+as consultas podem ser executadas usando a função "dbSendQuery".
+
+dbSendQuery(mydb, 'drop table if exists some_table, some_other_table')
+
+Comm este pacote, qualquer consulta SQL executada no MySQL será executada usando este método.
+
+5) Fazendo tabelas:
+Podemos criar tabelas no banco de dados usando dataframes R.
+
+dbWriteTable(mydb, name='table_name', value=data.frame.name)
+
+6) Recuperando dados do MySQL:
+Para recuperar dados do banco de dados, precisamos salvar um objeto de conjunto de resultados.
+
+rs = dbSendQuery(mydb, "select * from some_table")
+
+Os resultados dessa consulta ficam no servidor MySQL, para acessar os resultados em R precisamos
+a função "fetch".
+
+data = fetch(rs, n=-1)
+
+Isso salva os resultados da consulta como um objeto de data frame. O "n" na função especifica o
+número de registros a serem recuperados, usando "n = -1" recupera todos os registros pendentes.
 

@@ -1,0 +1,13 @@
+setwd("C:/llpDigital/WebSys_Virtualha/dataAnalysis")
+
+if(!require(RMySQL))
+  install.packages("RMySQL")
+library(RMySQL)
+database <- dbConnect(MySQL(), user='llpdigital', password='password', dbname='virtualha', host='192.168.0.110')
+dbListTables(database)
+dbListFields(database, 'localidades')
+table  <- dbSendQuery(database, "select * from localidades")
+localidades  <-  fetch(table, n=-1)
+localidades$DATA_FUND <- as.Date(localidades$DATA_FUND, format = "%Y-%m-%d")
+str(localidades)
+View(localidades)
