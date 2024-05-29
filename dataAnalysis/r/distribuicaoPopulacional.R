@@ -1,5 +1,9 @@
 setwd("C:/llpDigital/WebSys_Virtualha/dataAnalysis")
 
+if(!require(RMySQL))
+  install.packages("RMySQL")
+library(RMySQL)
+
 if(!require(dplyr))
   install.packages("dplyr")
 library(dplyr)
@@ -16,14 +20,14 @@ if(!require(RColorBrewer))
   install.packages("RColorBrewer")
 library(RColorBrewer)
 
+# ========= deprecated ===========
+#localidades <- read.csv("C:/llpDigital/WebSys_Virtualha/dataAnalysis/data/localidades.csv", header=TRUE, sep = ";", fileEncoding = 'latin1')
+#localidades$DATA_FUND <- as.Date(localidades$DATA_FUND, format = "%Y-%m-%d")
+#View(localidades)
 
-
-localidades <- read.csv("C:/llpDigital/WebSys_Virtualha/dataAnalysis/data/localidades.csv", header=TRUE, sep = ";", fileEncoding = 'latin1')
-localidades$DATA_FUND <- as.Date(localidades$DATA_FUND, format = "%Y-%m-%d")
-View(localidades)
-
-str(localidades)
-head(localidades)
+#str(localidades)
+#head(localidades)
+#=================================
 
 #-->passando cores da paleta RColorBrewer<--
 #brewer.pal.info
@@ -31,6 +35,15 @@ head(localidades)
 #par(mar=c(14,4,2,1))
 #barplot(height = localidades$POPULACAO, names = localidades$NOME, col = color, las=2)
 #box()
+
+database <- dbConnect(MySQL(), user='llpdigital', password='password', dbname='virtualha', host='192.168.0.110')
+dbListTables(database)
+dbListFields(database, 'localidades')
+table  <- dbSendQuery(database, "select * from localidades")
+localidades  <-  fetch(table, n=-1)
+localidades$DATA_FUND <- as.Date(localidades$DATA_FUND, format = "%Y-%m-%d")
+str(localidades)
+View(localidades)
 
 par(mar=c(14,4,2,1))
 barplot(height = localidades$POPULACAO, names = localidades$NOME, main = "Distribuição Populacional",
@@ -103,3 +116,4 @@ par(mar=c(2,2,2,2))
 par(mar=c(2,2,2,2))
   barplot(table(popDecrescente$POPULACAO, popDecrescente$ATIV), col = "cornflowerblue", main = "Distribuição Populacional por Tipo de Atividade")
   box()
+  
