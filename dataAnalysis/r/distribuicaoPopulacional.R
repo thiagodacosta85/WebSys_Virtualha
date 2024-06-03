@@ -42,14 +42,33 @@ localidades %>% select(NOME, ZONA, POPULACAO, ATIV)
 
 # <charts>
 
-ggplot(localidades, aes(x = NOME, y = POPULACAO, fill = ZONA)) +
-  geom_bar(stat = 'identity') +
-  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1),
-        axis.text.y = element_text(angle = 0, vjust = 0.5, hjust = 1)) +
-  labs(x = "Localidades", 
-       y = "População", 
-       title = "Distribuição Populacional", 
-       subtitle = NULL)
+  # <barplotDistribuicaoPopulacional>
 
-# </charts>
-
+  ggplot(localidades, aes(x = NOME, y = POPULACAO, fill = ZONA)) +
+    geom_bar(stat = 'identity') +
+    theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1),
+          axis.text.y = element_text(angle = 0, vjust = 0.5, hjust = 1)) +
+    labs(x = "Localidade",
+         y = "População", 
+         title = "Distribuição Populacional", 
+         subtitle = NULL)
+  
+  # </barplotDistribuicaoPopulacional>
+  
+  # <barplotValorMedioTerreno>
+  
+  ggplot(localidades, aes(x = NOME, y = VALOR_MED_TERRENO)) +
+    geom_bar(stat = 'identity', fill = "cornflowerblue") +
+    theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1),
+          axis.text.y = element_text(angle = 0, vjust = 0.5, hjust = 1)) +
+    labs(x = "Localidade",
+         y = "Valor Médio", 
+         title = "Valor médio dos terrnos por localidade", 
+         subtitle = NULL)
+  # </barplotValorMedioTerreno>
+  
+  
+  
+  
+  # </charts>
+  
