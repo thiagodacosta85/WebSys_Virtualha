@@ -67,8 +67,35 @@ localidades %>% select(NOME, ZONA, POPULACAO, ATIV)
          subtitle = NULL)
   # </barplotValorMedioTerreno>
   
-  
-  
-  
   # </charts>
+  
+  # <manipulations>
+    
+    localGruposRes <- select(localidades, NOME, ZONA, POPULACAO, CRIANCAS, ADOLESC,
+                          JOVENS_ADUL, ADULTOS, IDOSOS)
+  
+    localGrupos  <-  pivot_longer(localGruposRes,c(
+                                  CRIANCAS, ADOLESC, JOVENS_ADUL, ADULTOS, IDOSOS),
+                                  names_to = "Grupo",
+                                  values_to = "Quantidade")
+    rm(localGruposRes)
+    view(localGrupos)
+  
+    # </manipulations>
+    
+    # <charts02>
+      
+    ggplot(localGrupos, aes(x = NOME, y = Quantidade, fill = Grupo)) +
+      geom_bar(stat = 'identity') +
+      theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1),
+            axis.text.y = element_text(angle = 0, vjust = 0.5, hjust = 1)) +
+      labs(x = "Localidade",
+           y = "População", 
+           title = "Distribuição Populacional", 
+           subtitle = "Por grupo de individuos")
+    
+    # </charts02>
+    
+
+    
   
