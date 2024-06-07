@@ -60,6 +60,7 @@ view(localGrupos)
 
   # <barplotDistribuicaoPopulacional>
 
+
   ggplot(localidades, aes(x = NOME, y = POPULACAO, fill = ZONA, label = localidades$POPULACAO)) +
     geom_bar(stat = 'identity') +
     theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1),
@@ -74,14 +75,17 @@ view(localGrupos)
   
   # <barplotDistribuicaoPopulacionalPorGrupo>
   
-  ggplot(localGrupos, aes(x = NOME, y = Quantidade, fill = Grupo)) +
-    geom_bar(stat = 'identity') +
+  localGrupos %>%
+    filter(POPULACAO > 0) %>% 
+  ggplot(aes(x = NOME, y = Quantidade, fill = Grupo, label = Quantidade)) +
+    geom_bar(stat = 'identity', position = "dodge") +
+    geom_label(size = 3, fill = "white", position = position_dodge(width = 1)) +
     theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1),
           axis.text.y = element_text(angle = 0, vjust = 0.5, hjust = 1)) +
     labs(x = "Localidade",
          y = "População", 
          title = "Distribuição Populacional", 
-         subtitle = "Por grupo de individuos")
+         subtitle = "(excluindo os locais não habitados)")
   
   # </barplotDistribuicaoPopulacionalPorGrupo>
   
@@ -109,23 +113,33 @@ view(localGrupos)
     ) %>%
     ggplot(aes(ZONA,contador,label=contador, fill=ZONA))+
     geom_bar(stat = "identity")+
-    labs(title="Localidades por Zona",
+    labs(title="Distribuição das localidades por Zona",
          subtitle = NULL,
          x="Zona",
          y= NULL)+
-    theme(axis.text.x = element_blank()) +
-    theme(axis.ticks.x.bottom = element_blank()) +
-    geom_label(size = 4, fill="gray95") + 
-    coord_flip()
+    theme(axis.text.y = element_blank()) +
+    theme(axis.ticks.y.left = element_blank()) +
+    geom_label(size = 4, fill="gray95", alpha = 1)
+    #coord_flip()
   
   # </barplotLocalidadesPorZona>
   
+  # <barplotLOcupacaoDeVagasEmprego>
+  
+  localidades %>%
+    ggplot(aes(NOME, TRABALHADORES_EFET, fill = ZONA))+
+    geom_bar(stat = "identity")+
+    theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1),
+          axis.text.y = element_text(angle = 0, vjust = 0.5, hjust = 1))
+    labs()
+  
+  # </barplotLOcupacaoDeVagasEmprego>
   
   # </charts>
   
-    
-    
-    
 
-
+  
+    localidades %>%
+    filter(POPULACAO != 0) %>%
+    print()
   
