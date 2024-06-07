@@ -17,7 +17,7 @@ library(tidyverse)
 # <data>
 
 database <- dbConnect(MySQL(), user='llpdigital', password='password', 
-                      dbname='virtualha', host='192.168.0.110')
+                      dbname='virtualha', host='192.168.0.163')
 dbListTables(database)
 dbListFields(database, 'localidades')
 table  <- dbSendQuery(database, "select * from localidades")
@@ -46,13 +46,21 @@ localidades %>% select(NOME, ZONA, POPULACAO, ATIV)
 
 localGruposRes <- select(localidades, NOME, ZONA, POPULACAO, CRIANCAS, ADOLESC,
                          JOVENS_ADUL, ADULTOS, IDOSOS)
-
 localGrupos  <-  pivot_longer(localGruposRes,c(
   CRIANCAS, ADOLESC, JOVENS_ADUL, ADULTOS, IDOSOS),
   names_to = "Grupo",
   values_to = "Quantidade")
 rm(localGruposRes)
 view(localGrupos)
+
+empregabilidadeRes <- localidades %>% 
+  select(NOME, ZONA, TRABALHADORES_EFET, VAGAS_DISP)
+empregabilidade <- pivot_longer(empregabilidadeRes, c(TRABALHADORES_EFET, VAGAS_DISP),
+                                names_to = "Condição",
+                                values_to = "Quantidade")
+rm(empregabilidadeRes)
+view(empregabilidade)
+
 
 # </manipulations>
 
@@ -70,6 +78,9 @@ view(localGrupos)
          title = "Distribuição Populacional", 
          subtitle = NULL) +
     geom_label(size = 3, fill="gray95")
+    
+  
+  # scale_fill_manual(values = c("dodgerblue4","mediumaquamarine","coral4", "wheat4", "chocolate4")+
   
   # </barplotDistribuicaoPopulacional>
   
@@ -79,7 +90,7 @@ view(localGrupos)
     filter(POPULACAO > 0) %>% 
   ggplot(aes(x = NOME, y = Quantidade, fill = Grupo, label = Quantidade)) +
     geom_bar(stat = 'identity', position = "dodge") +
-    geom_label(size = 3, fill = "white", position = position_dodge(width = 1)) +
+    geom_label(size = 3, fill = "white", position = position_dodge(width = 1), alpha = 1) +
     theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1),
           axis.text.y = element_text(angle = 0, vjust = 0.5, hjust = 1)) +
     labs(x = "Localidade",
@@ -124,16 +135,40 @@ view(localGrupos)
   
   # </barplotLocalidadesPorZona>
   
-  # <barplotLOcupacaoDeVagasEmprego>
-  
-  localidades %>%
-    ggplot(aes(NOME, TRABALHADORES_EFET, fill = ZONA))+
-    geom_bar(stat = "identity")+
+
+  # <barplotEmpregabilidade>
+    
+  empregabilidade %>% 
+    ggplot(aes(NOME, Quantidade, fill = Condição, label= Quantidade)) +
+    geom_bar(stat = "identity", position = "dodge") +
+    labs(title="Empregabilidade",
+         subtitle = NULL,
+         x="Localidade",
+         y= "Trabalhadores X Vagas") + 
     theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1),
-          axis.text.y = element_text(angle = 0, vjust = 0.5, hjust = 1))
-    labs()
+          axis.text.y = element_text(angle = 0, vjust = 0.5, hjust = 1))+
+    scale_fill_manual(values = c("tomato","lightseagreen"))
   
-  # </barplotLOcupacaoDeVagasEmprego>
+  # </barplotEmpregabilidade>
+  
+  # <pieplotAtividade>
+  
+  localidades %>% 
+    group_by(ATIV) %>% 
+    summarise(
+      contador = n()
+    ) %>% tibble() %>% #isso esta errado, esta atribuindo valor de alguma maneira aos grupos que possuem apenas uma incidência
+    ggplot(aes(x = "", y = ATIV, fill = ATIV, label = contador)) +
+    geom_bar(stat = "identity") +
+    coord_polar(theta = "y", start = 0) +
+    theme_void() +
+    geom_label(position = position_stack(vjust = 0.5), fill = "gray95") +
+    labs(title="Incidência de localidade(s) por atividade") +
+    scale_fill_manual(values = c("tomato","lightseagreen", "chartreuse4", "lightblue4", "khaki4", "peru", "cadetblue4", "orangered3", "royalblue4", "darkolivegreen4", "snow4"))
+    
+    
+  
+# </pieplotAtividade>
   
   # </charts>
   
@@ -143,3 +178,19 @@ view(localGrupos)
     filter(POPULACAO != 0) %>%
     print()
   
+    localidades %>% 
+      group_by(ATIV) %>% 
+      summarise(
+        contador = n()
+      ) %>% 
+      
+      localidades %>% 
+      group_by(ATIV) %>% 
+      summarise()
+
+    localidades %>% 
+      group_by(ATIV) %>% 
+      summarise(
+        contador = n()
+      ) %>% tibble()
+      
