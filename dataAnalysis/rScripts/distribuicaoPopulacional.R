@@ -65,14 +65,19 @@ distribAtividade <- localidades %>%
   select(NOME, ATIV)
 view(distribAtividade)
 
+atividade  <-  distribAtividade %>% 
+  group_by(ATIV) %>% 
+  summarise(
+    n = n()
+  )
+view(atividade)
+
 
 # </manipulations>
 
 # <charts>
 
   # <barplotDistribuicaoPopulacional>
-
-
   ggplot(localidades, aes(x = NOME, y = POPULACAO, fill = ZONA, label = localidades$POPULACAO)) +
     geom_bar(stat = 'identity') +
     theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1),
@@ -82,14 +87,9 @@ view(distribAtividade)
          title = "Distribuição Populacional", 
          subtitle = NULL) +
     geom_label(size = 3, fill="gray95")
-    
-  
-  # scale_fill_manual(values = c("dodgerblue4","mediumaquamarine","coral4", "wheat4", "chocolate4")+
-  
   # </barplotDistribuicaoPopulacional>
   
   # <barplotDistribuicaoPopulacionalPorGrupo>
-  
   localGrupos %>%
     filter(POPULACAO > 0) %>% 
   ggplot(aes(x = NOME, y = Quantidade, fill = Grupo, label = Quantidade)) +
@@ -101,11 +101,9 @@ view(distribAtividade)
          y = "População", 
          title = "Distribuição Populacional", 
          subtitle = "(excluindo os locais não habitados)")
-  
   # </barplotDistribuicaoPopulacionalPorGrupo>
   
   # <barplotValorMedioTerreno>
-  
   ggplot(localidades, aes(x = NOME, y = VALOR_MED_TERRENO, fill = ZONA, label = VALOR_MED_TERRENO)) +
     geom_bar(stat = 'identity') +
     theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1),
@@ -115,8 +113,6 @@ view(distribAtividade)
          title = "Valor médio dos terrenos por localidade", 
          subtitle = NULL) +
     geom_label(size = 3, fill="gray95")
-  
-  
   # </barplotValorMedioTerreno>
   
   # <barplotLocalidadesPorZona>
@@ -135,7 +131,6 @@ view(distribAtividade)
     theme(axis.text.y = element_blank()) +
     theme(axis.ticks.y.left = element_blank()) +
     geom_label(size = 4, fill="gray95", alpha = 1)
-    #coord_flip()
   
   # </barplotLocalidadesPorZona>
   
@@ -148,63 +143,28 @@ view(distribAtividade)
     labs(title="Empregabilidade",
          subtitle = NULL,
          x="Localidade",
-         y= "Trabalhadores X Vagas") + 
+         y= "Relação trabalhadores e vagas") + 
     theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1),
           axis.text.y = element_text(angle = 0, vjust = 0.5, hjust = 1))+
-    scale_fill_manual(values = c("tomato","lightseagreen"))
+    scale_fill_manual(values = c("#FF61CC","#00A9FF"))
   
   # </barplotEmpregabilidade>
   
-  # <pieplotAtividade>
-  
-  distribAtividade %>% 
-    group_by(ATIV) %>% 
-    summarise(
-      contador = n()
-    ) %>% tibble() %>%
-    ggplot(aes(x = "", y = NOME, label = n, fill = ATIV)) +
-    geom_bar(stat = "identity") +
-    coord_polar(theta = "y", start = 0) +
-    theme_void() +
-    geom_label(position = position_stack(vjust = 0.5), fill = "gray95") +
-    labs(title="Incidência de localidade(s) por atividade") +
-    
-  
- # </pieplotAtividade>
-  
- # <pieplotCorreto>
-  
-  atividade = distribAtividade %>% 
-    group_by(ATIV) %>% 
-    summarise(
-      n = n()
-    )
-  atividade
+  # <barplotDistribAtividades>
   
   atividade %>% 
-    ggplot(aes(y = ATIV, x = n, fill = ATIV)) +
+    ggplot(aes(y = ATIV, x = n, fill = ATIV, label = n)) +
     geom_bar(stat = "identity") +
-    coord_flip()
-  
-  atividade %>% 
-    ggplot(aes(x = "", y = n, fill = ATIV, label = n)) +
-    geom_bar(stat = "identity", width = 0.3) +
+    labs(title="Insidência de localidades por atividade",
+         subtitle = NULL,
+         x=NULL,
+         y= NULL) +
     coord_flip() +
-    geom_label(position = position_stack(vjust = 0.5)) 
-    #theme_void()
+    geom_label(size = 4, fill="gray95", alpha = 1)
   
-  atividade %>% 
-    ggplot(aes(x = "", y = n, fill = ATIV, label = n)) +
-    geom_bar(stat = "identity") +
-    coord_polar(theta = "y", start = 0) +
-    theme_void() +
-    geom_label(position = position_stack(vjust = 0.5), fill = "gray95") +
-    #scale_fill_manual(values = c("tomato","lightseagreen", "chartreuse4", "lightblue4", "khaki4", "peru", "cadetblue4", "orangered3", "royalblue4", "darkolivegreen4", "snow4")) +
-    labs(title="Incidência de localidade(s) por atividade")
-  
-# </pieplotCorreto>
+  # </barplotDistribAtividades>
  
   
-  # </charts>
+# </charts>
   
     
