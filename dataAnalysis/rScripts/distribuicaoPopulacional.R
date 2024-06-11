@@ -61,6 +61,10 @@ empregabilidade <- pivot_longer(empregabilidadeRes, c(TRABALHADORES_EFET, VAGAS_
 rm(empregabilidadeRes)
 view(empregabilidade)
 
+distribAtividade <- localidades %>% 
+  select(NOME, ATIV)
+view(distribAtividade)
+
 
 # </manipulations>
 
@@ -153,44 +157,54 @@ view(empregabilidade)
   
   # <pieplotAtividade>
   
-  localidades %>% 
+  distribAtividade %>% 
     group_by(ATIV) %>% 
     summarise(
       contador = n()
-    ) %>% tibble() %>% #isso esta errado, esta atribuindo valor de alguma maneira aos grupos que possuem apenas uma incidência
-    ggplot(aes(x = "", y = ATIV, fill = ATIV, label = contador)) +
+    ) %>% tibble() %>%
+    ggplot(aes(x = "", y = NOME, label = n, fill = ATIV)) +
     geom_bar(stat = "identity") +
     coord_polar(theta = "y", start = 0) +
     theme_void() +
     geom_label(position = position_stack(vjust = 0.5), fill = "gray95") +
     labs(title="Incidência de localidade(s) por atividade") +
-    scale_fill_manual(values = c("tomato","lightseagreen", "chartreuse4", "lightblue4", "khaki4", "peru", "cadetblue4", "orangered3", "royalblue4", "darkolivegreen4", "snow4"))
-    
     
   
-# </pieplotAtividade>
+ # </pieplotAtividade>
+  
+ # <pieplotCorreto>
+  
+  atividade = distribAtividade %>% 
+    group_by(ATIV) %>% 
+    summarise(
+      n = n()
+    )
+  atividade
+  
+  atividade %>% 
+    ggplot(aes(y = ATIV, x = n, fill = ATIV)) +
+    geom_bar(stat = "identity") +
+    coord_flip()
+  
+  atividade %>% 
+    ggplot(aes(x = "", y = n, fill = ATIV, label = n)) +
+    geom_bar(stat = "identity", width = 0.3) +
+    coord_flip() +
+    geom_label(position = position_stack(vjust = 0.5)) 
+    #theme_void()
+  
+  atividade %>% 
+    ggplot(aes(x = "", y = n, fill = ATIV, label = n)) +
+    geom_bar(stat = "identity") +
+    coord_polar(theta = "y", start = 0) +
+    theme_void() +
+    geom_label(position = position_stack(vjust = 0.5), fill = "gray95") +
+    #scale_fill_manual(values = c("tomato","lightseagreen", "chartreuse4", "lightblue4", "khaki4", "peru", "cadetblue4", "orangered3", "royalblue4", "darkolivegreen4", "snow4")) +
+    labs(title="Incidência de localidade(s) por atividade")
+  
+# </pieplotCorreto>
+ 
   
   # </charts>
   
-
-  
-    localidades %>%
-    filter(POPULACAO != 0) %>%
-    print()
-  
-    localidades %>% 
-      group_by(ATIV) %>% 
-      summarise(
-        contador = n()
-      ) %>% 
-      
-      localidades %>% 
-      group_by(ATIV) %>% 
-      summarise()
-
-    localidades %>% 
-      group_by(ATIV) %>% 
-      summarise(
-        contador = n()
-      ) %>% tibble()
-      
+    
