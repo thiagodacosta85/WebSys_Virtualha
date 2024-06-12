@@ -1,0 +1,64 @@
+---
+title: "Características atuais das Localidades"
+author: "Thiago"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+if(!require(tidyverse))
+  install.packages("tidyverse")
+library(tidyverse)
+```
+
+```{r localidades, echo =FALSE}
+
+```
+
+## Análise geral sobre as localidades
+
+Este documento destina-se a apresentar características específicas de cada localidade do município de Virtualha. Nele serão descritos aspectos:
+
+-   Distribuição populacional geral
+
+-   Distribuição populacional por grupo de indivíduos
+
+-   Distribuição das localidades por zona
+
+-   Valor médio territorial
+
+-   Ocupação territorial
+
+-   Empregabilidade
+
+-   Incidência de localidades por tipo de natureza de atividade
+
+Para elaboração deste documento foi utilizada exclusivamente a tabela "localidades" do banco de dados MySQL "virtualha".
+
+#### Alguns dados brutos gerais:
+
+Atualmente o Virtualha conta com as seguintes localidades:
+
+```{r localidades}
+localidades %>%
+  select(NOME, ZONA, POPULACAO, ATIV)
+```
+
+A quantidade atual de habitantes é:
+
+```{r localidades, echo =FALSE}
+sum(localidades$POPULACAO)
+
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.

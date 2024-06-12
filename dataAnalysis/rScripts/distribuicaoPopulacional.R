@@ -42,6 +42,13 @@ localidades %>% select(NOME, ZONA, POPULACAO, ATIV)
 
 # </dataCheck>
 
+#<basicInformations>
+
+localidades %>% 
+  select(NOME)
+
+#</basicInformations>
+
 # <manipulations>
 
 localGruposRes <- select(localidades, NOME, ZONA, POPULACAO, CRIANCAS, ADOLESC,
@@ -72,13 +79,20 @@ atividade  <-  distribAtividade %>%
   )
 view(atividade)
 
+ocupacaoTerritorial <- localidades %>% 
+  select(NOME, RESIDENCIAS_CONST, RESIDENCIAS_POS)
+ocupacaoTerritorial <- pivot_longer(ocupacaoTerritorial, c(RESIDENCIAS_CONST, RESIDENCIAS_POS),
+                                      names_to = "Tipo",
+                                      values_to = "Quantidade")
+view(ocupacaoTerritorial)
+
 
 # </manipulations>
 
 # <charts>
 
   # <barplotDistribuicaoPopulacional>
-  ggplot(localidades, aes(x = NOME, y = POPULACAO, fill = ZONA, label = localidades$POPULACAO)) +
+  ggplot(localidades, aes(x = NOME, y = POPULACAO, fill = ZONA, label = POPULACAO)) +
     geom_bar(stat = 'identity') +
     theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1),
           axis.text.y = element_text(angle = 0, vjust = 0.5, hjust = 1)) +
@@ -92,31 +106,18 @@ view(atividade)
   # <barplotDistribuicaoPopulacionalPorGrupo>
   localGrupos %>%
     filter(POPULACAO > 0) %>% 
-  ggplot(aes(x = NOME, y = Quantidade, fill = Grupo, label = Quantidade)) +
+  ggplot(aes(x = NOME, y = Quantidade, fill = Grupo, label = Quantidade, group = Grupo)) +
     geom_bar(stat = 'identity', position = "dodge") +
-    geom_label(size = 3, fill = "white", position = position_dodge(width = 1), alpha = 1) +
+    geom_label(size = 3, fill = "white", position = position_dodge(width = 1), alpha = 1, angle = 90) +
     theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1),
           axis.text.y = element_text(angle = 0, vjust = 0.5, hjust = 1)) +
     labs(x = "Localidade",
          y = "População", 
-         title = "Distribuição Populacional", 
-         subtitle = "(excluindo os locais não habitados)")
+         title = "Distribuição populacional por grupo de indivíduos", 
+         subtitle = "* Excluindo os locais não habitados")
   # </barplotDistribuicaoPopulacionalPorGrupo>
   
-  # <barplotValorMedioTerreno>
-  ggplot(localidades, aes(x = NOME, y = VALOR_MED_TERRENO, fill = ZONA, label = VALOR_MED_TERRENO)) +
-    geom_bar(stat = 'identity') +
-    theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1),
-          axis.text.y = element_text(angle = 0, vjust = 0.5, hjust = 1)) +
-    labs(x = "Localidade",
-         y = "Valor Médio", 
-         title = "Valor médio dos terrenos por localidade", 
-         subtitle = NULL) +
-    geom_label(size = 3, fill="gray95")
-  # </barplotValorMedioTerreno>
-  
   # <barplotLocalidadesPorZona>
-  
   localidades %>%
     group_by(ZONA) %>%
     summarise(
@@ -130,15 +131,39 @@ view(atividade)
          y= NULL)+
     theme(axis.text.y = element_blank()) +
     theme(axis.ticks.y.left = element_blank()) +
-    geom_label(size = 4, fill="gray95", alpha = 1)
-  
+    geom_label(size = 3, fill="gray95", alpha = 1)
   # </barplotLocalidadesPorZona>
   
-
+  # <barplotValorMedioTerreno>
+  ggplot(localidades, aes(x = NOME, y = VALOR_MED_TERRENO, fill = ZONA, label = VALOR_MED_TERRENO)) +
+    geom_bar(stat = 'identity') +
+    theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1),
+          axis.text.y = element_text(angle = 0, vjust = 0.5, hjust = 1)) +
+    labs(x = "Localidade",
+         y = "Valor Médio", 
+         title = "Valor médio dos terrenos por localidade", 
+         subtitle = NULL) +
+    geom_label(size = 3, fill="gray95")
+  # </barplotValorMedioTerreno>
+  
+  # <barplotOcupacaoTerritorial>
+  ocupacaoTerritorial %>%
+    filter(Quantidade != 0) %>% 
+    ggplot(aes(NOME, Quantidade, fill = Tipo, label = Quantidade, group = Tipo)) +
+    geom_bar(stat = "identity", position = "dodge") + 
+    theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1),
+          axis.text.y = element_text(angle = 0, vjust = 0.5, hjust = 1)) +
+    labs(x = "Localidade",
+         y = "Quantidade", 
+         title = "Ocupação territorial", 
+         subtitle = "* ocultadas as localidades sem residências construídas") +
+    geom_label(size = 3, fill="gray95", angle = 90, position = position_dodge(width=1))
+  # <barplotOcupacaoTerritorial>
+  
   # <barplotEmpregabilidade>
     
   empregabilidade %>% 
-    ggplot(aes(NOME, Quantidade, fill = Condição, label= Quantidade)) +
+    ggplot(aes(NOME, Quantidade, fill = Condição, label= Quantidade, group = Condição)) +
     geom_bar(stat = "identity", position = "dodge") +
     labs(title="Empregabilidade",
          subtitle = NULL,
@@ -146,7 +171,8 @@ view(atividade)
          y= "Relação trabalhadores e vagas") + 
     theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1),
           axis.text.y = element_text(angle = 0, vjust = 0.5, hjust = 1))+
-    scale_fill_manual(values = c("#FF61CC","#00A9FF"))
+    scale_fill_manual(values = c("#F8766D","#00BFC4")) +
+    geom_label(size = 3, fill="gray95", alpha = 1, position = position_dodge(width=1), angle = 90)
   
   # </barplotEmpregabilidade>
   
