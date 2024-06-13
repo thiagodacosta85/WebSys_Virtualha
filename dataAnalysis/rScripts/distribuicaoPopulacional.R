@@ -47,8 +47,46 @@ localidades %>% select(NOME, ZONA, POPULACAO, ATIV)
 localidades %>% 
   select(NOME)
 
+populacaototal <- sum(localidades$POPULACAO)
+populacaototal
+
+
+
+agrupamentos <- localidades %>% 
+  select(NOME, CRIANCAS, ADOLESC, JOVENS_ADUL, JOVENS_ADUL, ADULTOS, IDOSOS)
+as_tibble(agrupamentos)
+agrupamentos
+
+criancas <- paste("Crianças: ", sum(agrupamentos$CRIANCAS))
+adolescentes<- paste("Adolescentes: ", sum(agrupamentos$ADOLESC))
+jovensAdultos <- paste("Jovens Adultos: ", sum(agrupamentos$JOVENS_ADUL))
+adultos <- paste("Adultos: ", sum(agrupamentos$ADULTOS))
+idosos <- paste("Idosos: ", sum(agrupamentos$IDOSOS))
+
+paste(criancas, "|", adolescentes, "|", jovensAdultos, "|", adultos, "|", idosos)
+
+vagasTrabalho <- sum(localidades$VAGAS_DISP)
+vagasTrabalho
+
+vagasPreenchidas <- sum(localidades$TRABALHADORES_EFET)
+vagasPreenchidas
+
+saldoTrabalhista <- (vagasPreenchidas - vagasTrabalho)
+saldoTrabalhista
+
+
+if (vagasPreenchidas < vagasTrabalho) {
+  paste("Atualmente o déficit de trabalhadores é de: ", saldoTrabalhista)
+} else if(vagasPreenchidas > vagasTrabalho){
+  paste("Atualmente o déficit de empregos é de: ", saldoTrabalhista)
+}else{
+  print("Atualmente o saldo trabalhista de vagas x trabalhadores 100% equilibrado.") 
+}
+
+
 #</basicInformations>
 
+paste("teste1", "teste2")
 # <manipulations>
 
 localGruposRes <- select(localidades, NOME, ZONA, POPULACAO, CRIANCAS, ADOLESC,
