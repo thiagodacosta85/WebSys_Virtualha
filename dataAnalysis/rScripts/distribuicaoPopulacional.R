@@ -54,7 +54,6 @@ populacaototal
 
 agrupamentos <- localidades %>% 
   select(NOME, CRIANCAS, ADOLESC, JOVENS_ADUL, JOVENS_ADUL, ADULTOS, IDOSOS)
-as_tibble(agrupamentos)
 agrupamentos
 
 criancas <- paste("Crianças: ", sum(agrupamentos$CRIANCAS))
@@ -83,10 +82,8 @@ if (vagasPreenchidas < vagasTrabalho) {
   print("Atualmente o saldo trabalhista de vagas x trabalhadores 100% equilibrado.") 
 }
 
-
 #</basicInformations>
 
-paste("teste1", "teste2")
 # <manipulations>
 
 localGruposRes <- select(localidades, NOME, ZONA, POPULACAO, CRIANCAS, ADOLESC,
