@@ -16,7 +16,9 @@ os.system('cls')
 df_localidades = pd.read_sql_query("SELECT * FROM localidades", engine)
 
 
-# print(df_localidades)
+print(df_localidades)
+print(type(df_localidades))
+
 
 df_localidades.describe()
 df_localidades.shape
