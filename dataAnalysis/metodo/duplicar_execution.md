@@ -23,6 +23,8 @@ col_ID_LOCAL ("typeof_data") = EXCLUSAO
 poplucao_total
 nomes_localidades
 quantidade_zonas
+tipos_atividades
+
 ````
 
 4. Quais datafarames derivados serão geradas por agrupamentos e/ou reordenação de dados?
