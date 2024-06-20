@@ -17,7 +17,7 @@ library(tidyverse)
 # <data>
 
 database <- dbConnect(MySQL(), user='llpdigital', password='password', 
-                      dbname='virtualha', host='192.168.0.163')
+                      dbname='virtualha', host='192.168.0.166')
 dbListTables(database)
 dbListFields(database, 'localidades')
 table  <- dbSendQuery(database, "select * from localidades")
