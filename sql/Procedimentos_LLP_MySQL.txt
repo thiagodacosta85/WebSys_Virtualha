@@ -86,7 +86,7 @@ de procedimentos)
 10.4) Considerando que os usuários estejam criados, e endereçados corretamente com seu nr. de IP,
 proceder com acesso ao DB:
 
-mysql -u thiago -h 192.168.0.169 -p (entra no I3-10105F)
+mysql -u thiago -h 192.168.0.166 -p (entra no I3-10105F)
 
 mysql -u llpdigital -h 192.168.0.110 -p (entra no I3-3227U)
 
